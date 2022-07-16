@@ -1,25 +1,26 @@
 {
-  "name": "ts-cli-starter",
-  "version": "1.0.0",
-  "description": "A minimal starter project for typescript cli tools",
-  "main": "dist/bin/ts-cli-starter.bin.js",
+  "name": "package-lock-find",
+  "version": "0.0.1",
+  "description": "A CLI Tool to analyze packages in your package-lock.json",
+  "main": "dist/bin/package-lock-find.bin.js",
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc"
   },
   "bin": {
-    "ts-cli-starter": "./dist/bin/ts-cli-starter.bin.js"
+    "package-lock-find": "./dist/bin/package-lock-find.bin.js"
   },
   "keywords": [
-    "minimal",
-    "typescript",
-    "cli",
-    "starter"
+    "package-lock",
+    "package-lock.json",
+    "analyze",
+    "tool",
+    "version"
   ],
   "author": "Simon Haugen",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smnhgn/ts-cli-starter.git"
+    "url": "git+https://github.com/smnhgn/package-lock-find.git"
   },
   "license": "MIT",
   "dependencies": {

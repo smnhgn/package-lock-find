@@ -5,6 +5,6 @@ const program = new Command();
 
 program
   .action(() => {
-    console.log("ts-cli-starter works!");
+    console.log("package-lock-find works!");
   })
   .parse(process.argv);
