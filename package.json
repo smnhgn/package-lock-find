@@ -1,15 +1,19 @@
 {
   "name": "package-lock-find",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CLI Tool to analyze packages in your package-lock.json",
   "main": "dist/bin/package-lock-find.bin.js",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "tsc"
   },
   "bin": {
     "package-lock-find": "./dist/bin/package-lock-find.bin.js"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "package-lock",
     "package-lock.json",
@@ -24,7 +28,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.2",
     "commander": "^8.2.0"
   },
   "devDependencies": {
