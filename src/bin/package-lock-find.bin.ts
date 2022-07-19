@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import chalk from "chalk";
 
 import { findDependencyByName, readPackageLock } from "../lib/utils";
 import { PackageLock } from "../types/package-lock";
@@ -19,6 +20,12 @@ program
         .join(" => ");
     });
 
-    console.log(JSON.stringify(formattedResults, null, 2));
+    if (formattedResults.length === 0) {
+      throw new Error(chalk.yellow(`dependency ${dependencyName} not found`));
+    }
+
+    for (const result of formattedResults) {
+      console.log(chalk.blue(result));
+    }
   })
   .parse(process.argv);
