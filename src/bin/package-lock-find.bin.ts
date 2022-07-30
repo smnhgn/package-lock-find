@@ -5,10 +5,12 @@ import chalk from "chalk";
 import { findDependency, findPackage, readPackageLock } from "../lib/utils";
 import { PackageLock } from "../types/package-lock";
 
+const { version } = require("../../package.json");
+
 const program = new Command();
 
 program
-  .version("0.0.1")
+  .version(version, "-v, --version")
   .argument("<name>", "name of package/dependency")
   .option("-p, --path <path>", "path to package-lock.json", "./")
   .action(async (name, { path }) => {
