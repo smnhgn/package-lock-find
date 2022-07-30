@@ -1,13 +1,21 @@
+import _ from "lodash";
 import path from "path";
 import fsp from "fs/promises";
 
-import { Dependency, PackageLock } from "../types/package-lock";
+import { Dependency, Package, PackageLock } from "../types/package-lock";
 
 type DependencyRecord = [string, Dependency];
 
 type DependencyResult = {
   dependency: Dependency;
   history: DependencyRecord[];
+};
+
+type PackageRecord = [string, Package];
+
+type PackageResult = {
+  package: Package;
+  history: PackageRecord[];
 };
 
 export const readPackageLock = async (unresolvedPath: string): Promise<PackageLock> => {
@@ -18,7 +26,7 @@ export const readPackageLock = async (unresolvedPath: string): Promise<PackageLo
   return packageLock;
 };
 
-export const findDependencyByName = (
+export const findDependency = (
   dependencyName: string,
   dependencyMap: Record<string, Dependency>,
   dependencyHistory: DependencyRecord[] = []
@@ -37,11 +45,65 @@ export const findDependencyByName = (
     }
 
     if (currentDependency.dependencies) {
-      return findDependencyByName(
+      return findDependency(
         dependencyName,
         currentDependency.dependencies,
         currentDependencyHistory
       );
+    }
+
+    return [];
+  });
+};
+
+const findPackageRecord = (
+  packagePath: string,
+  packageRecords: PackageRecord[]
+): PackageRecord | undefined => {
+  return packageRecords.find(([pkgPath]) => pkgPath === packagePath);
+};
+
+const buildPackageRecord = (name: string, pkg: Package): PackageRecord => {
+  return [name, pkg];
+};
+
+const formatPackageName = (packagePath: string): string => {
+  return _.chain(packagePath)
+    .split(/\/?node_modules\//)
+    .compact()
+    .last()
+    .value();
+};
+
+export const findPackage = (
+  packageName: string,
+  packageMap: Record<string, Package>
+): PackageResult[] => {
+  const packageRecords: PackageRecord[] = Object.entries(packageMap);
+
+  return packageRecords.flatMap(([currentPackagePath, currentPackage]) => {
+    const packagePath = `node_modules/${packageName}`;
+
+    if (currentPackagePath.endsWith(packagePath)) {
+      const packageNames = _.compact(currentPackagePath.split(/\/?node_modules\//));
+      const packagePaths = _.chain(packageNames)
+        .keys()
+        .map((index) => packageNames.slice(0, packageNames.length - +index))
+        .map((previousNames) => `node_modules/${previousNames.join("/node_modules/")}`)
+        .reverse()
+        .value();
+
+      const packageHistory = _.chain(packagePaths)
+        .map((packagePath) => findPackageRecord(packagePath, packageRecords))
+        .compact()
+        .map(([packagePath, pkg]) => buildPackageRecord(formatPackageName(packagePath), pkg))
+        .value();
+
+
+      return {
+        package: currentPackage,
+        history: packageHistory,
+      };
     }
 
     return [];
