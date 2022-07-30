@@ -1,23 +1,21 @@
 
 # package-lock-find
 
-A CLI Tool to analyze packages in your package-lock.json
-
-(Currently only supports package-lock.json version 2)
+A CLI Tool to analyze packages/dependencies in your package-lock.json
 
 
 ## Usage
 
 ```
-Usage: package-lock-find [options] <dependency>
+Usage: package-lock-find [options] <package/dependency>
 
 Arguments:
-  dependency         name of dependency
+  package/dependency  name of package/dependency
 
 Options:
-  -V, --version      output the version number
-  -p, --path <path>  path to package-lock.json (default: "./")
-  -h, --help         display help for command
+  -v, --version       output the version number
+  -p, --path <path>   path to package-lock.json (default: "./")
+  -h, --help          display help for command
 ```
 
 Example
