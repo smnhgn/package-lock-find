@@ -1,6 +1,6 @@
 {
   "name": "package-lock-find",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A CLI Tool to analyze packages in your package-lock.json",
   "main": "dist/bin/package-lock-find.bin.js",
   "scripts": {
