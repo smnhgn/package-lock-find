@@ -20,10 +20,15 @@ type PackageResult = {
 
 export const readPackageLock = async (unresolvedPath: string): Promise<PackageLock> => {
   const resolvedPath = path.resolve(unresolvedPath, "package-lock.json");
-  const packageLockJson = await fsp.readFile(resolvedPath, { encoding: "utf-8" });
-  const packageLock = JSON.parse(packageLockJson) as PackageLock;
 
-  return packageLock;
+  try {
+    const packageLockJson = await fsp.readFile(resolvedPath, { encoding: "utf-8" });
+    const packageLock = JSON.parse(packageLockJson) as PackageLock;
+  
+    return packageLock;
+  } catch (error) {
+    throw Error(`Could not read package-lock.json at "${resolvedPath}": ${error}`);
+  }
 };
 
 export const findDependency = (
